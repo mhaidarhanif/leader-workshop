@@ -21,7 +21,12 @@ export function AppShell() {
     <div className="flex min-h-screen flex-col">
       <header className="sticky top-0 z-50 border-b border-border/60 bg-background/80 backdrop-blur-md">
         <AppContainer className="flex flex-col gap-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-3">
+          <NavLink
+            to="/"
+            end
+            className="flex items-center gap-3 rounded-xl transition-colors hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+            aria-label="Leader Workshop home"
+          >
             <div
               className="flex size-9 items-center justify-center rounded-xl bg-primary font-display text-sm font-bold text-primary-foreground"
               aria-hidden
@@ -32,7 +37,7 @@ export function AppShell() {
               <p className="font-display text-xl font-bold tracking-tight">Leader Workshop</p>
               <p className="text-sm text-muted-foreground">Hackathon showcase</p>
             </div>
-          </div>
+          </NavLink>
           <nav aria-label="Main navigation" className="flex flex-wrap gap-2">
             {navItems.map(({ to, label, icon: Icon, end, liveDot }) => (
               <NavLink
