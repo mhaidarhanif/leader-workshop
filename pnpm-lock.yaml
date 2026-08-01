@@ -47,6 +47,13 @@ importers:
       tailwind-merge:
         specifier: ^3.3.0
         version: 3.6.0
+    optionalDependencies:
+      '@tailwindcss/oxide-linux-x64-gnu':
+        specifier: 4.3.3
+        version: 4.3.3
+      '@tailwindcss/oxide-linux-x64-musl':
+        specifier: 4.3.3
+        version: 4.3.3
     devDependencies:
       '@tailwindcss/vite':
         specifier: ^4.1.8

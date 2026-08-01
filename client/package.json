@@ -21,6 +21,10 @@
     "react-router-dom": "^7.6.1",
     "tailwind-merge": "^3.3.0"
   },
+  "optionalDependencies": {
+    "@tailwindcss/oxide-linux-x64-gnu": "4.3.3",
+    "@tailwindcss/oxide-linux-x64-musl": "4.3.3"
+  },
   "devDependencies": {
     "@tailwindcss/vite": "^4.1.8",
     "@types/react": "^19.1.6",
