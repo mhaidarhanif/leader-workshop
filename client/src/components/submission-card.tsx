@@ -12,7 +12,6 @@ type SubmissionCardProps = {
   onSelect?: () => void;
   rank?: number;
   total?: number | null;
-  compact?: boolean;
   className?: string;
 };
 
@@ -22,7 +21,6 @@ export function SubmissionCard({
   onSelect,
   rank,
   total,
-  compact,
   className,
 }: SubmissionCardProps) {
   const thumbnail = submission.screenshot_urls[0];
@@ -33,12 +31,7 @@ export function SubmissionCard({
 
   const content = (
     <>
-      <div
-        className={cn(
-          "relative overflow-hidden bg-muted",
-          compact ? "aspect-video max-h-32" : "aspect-video",
-        )}
-      >
+      <div className="relative aspect-video overflow-hidden bg-muted">
         {showThumbnail ? (
           <img
             src={thumbnail}
@@ -63,7 +56,7 @@ export function SubmissionCard({
         )}
       </div>
 
-      <div className={cn("flex flex-col gap-3", compact ? "p-4" : "p-5")}>
+      <div className="flex flex-col gap-3 p-5">
         <div>
           <h3 className="font-display text-xl font-bold tracking-tight">
             {submission.team_name}

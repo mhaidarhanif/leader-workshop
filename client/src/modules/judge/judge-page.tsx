@@ -14,9 +14,15 @@ import { useSubmissions } from '@/modules/submissions/use-submissions';
 
 function SubmissionsSkeleton() {
   return (
-    <div className="grid gap-4 sm:grid-cols-2" aria-busy="true" aria-label="Loading submissions">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true" aria-label="Loading submissions">
       {Array.from({ length: 4 }, (_, i) => (
-        <Skeleton key={i} className="h-48 rounded-2xl" />
+        <div key={i} className="overflow-hidden rounded-2xl ring-1 ring-border/60">
+          <Skeleton className="aspect-video w-full rounded-none" />
+          <div className="flex flex-col gap-3 p-5">
+            <Skeleton className="h-6 w-2/3" />
+            <Skeleton className="h-4 w-1/2" />
+          </div>
+        </div>
       ))}
     </div>
   );
@@ -113,13 +119,12 @@ export function JudgePage() {
             <div
               role="listbox"
               aria-labelledby="submission-picker-label"
-              className="grid gap-4 sm:grid-cols-2"
+              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
             >
               {submissions.map((s) => (
                 <SubmissionCard
                   key={s.id}
                   submission={s}
-                  compact
                   selected={selectedId === s.id}
                   onSelect={() => setSelectedId(s.id)}
                 />

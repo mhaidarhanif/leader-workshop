@@ -1,24 +1,19 @@
 import { ExternalLink } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import { formatDisplayUrl } from '../shared/format-display-url';
 import type { Submission } from '../shared/http';
 
 type ArtifactLink = {
   label: string;
   url: string;
-  fullWidth?: boolean;
 };
 
-function ArtifactLinkRow({ label, url, fullWidth }: ArtifactLink) {
+function ArtifactLinkRow({ label, url }: ArtifactLink) {
   return (
     <Button
       asChild
       variant="outline"
-      className={cn(
-        'h-auto min-h-14 w-full justify-between gap-3 px-4 py-3 text-left hover:bg-accent',
-        fullWidth && 'sm:col-span-2',
-      )}
+      className="h-auto min-h-14 w-full justify-between gap-3 px-4 py-3 text-left hover:bg-accent"
     >
       <a
         href={url}
@@ -46,7 +41,6 @@ export function SubmissionArtifactLinks({ submission }: { submission: Submission
   const screenshotLinks: ArtifactLink[] = submission.screenshot_urls.map((url, index) => ({
     label: `Screenshot ${index + 1}`,
     url,
-    fullWidth: true,
   }));
 
   return (
@@ -54,7 +48,7 @@ export function SubmissionArtifactLinks({ submission }: { submission: Submission
       <h4 id="submission-artifacts-heading" className="text-lg font-semibold">
         Submission artifacts
       </h4>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="flex flex-col flex-wrap gap-3">
         {fixedLinks.map((link) => (
           <ArtifactLinkRow key={link.label} {...link} />
         ))}
