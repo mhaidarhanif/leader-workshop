@@ -2,6 +2,9 @@
   "name": "leader-workshop",
   "private": true,
   "packageManager": "pnpm@9.15.0",
+  "engines": {
+    "node": ">=20"
+  },
   "scripts": {
     "build": "pnpm --filter @leader-workshop/client build && rm -rf server/static && cp -r client/dist server/static && pnpm --filter @leader-workshop/server build",
     "start": "pnpm --filter @leader-workshop/server start",
