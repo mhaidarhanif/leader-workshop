@@ -9,6 +9,7 @@ import { setupOpenApiDocs } from './modules/shared/openapi.js';
 import { registerHealthRoutes } from './modules/health/health-route.js';
 import { registerSubmissionRoutes } from './modules/submissions/submissions-route.js';
 import { registerScoreRoutes } from './modules/scores/scores-route.js';
+import { registerJudgeRoutes } from './modules/judge/judge-route.js';
 import { registerLeaderboardRoutes } from './modules/leaderboard/leaderboard-route.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -19,6 +20,7 @@ const app = new OpenAPIHono();
 registerHealthRoutes(app);
 registerSubmissionRoutes(app);
 registerScoreRoutes(app);
+registerJudgeRoutes(app);
 registerLeaderboardRoutes(app);
 setupOpenApiDocs(app);
 

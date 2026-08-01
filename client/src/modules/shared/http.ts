@@ -72,6 +72,17 @@ export function upsertScore(data: UpsertScoreInput, pin: string) {
   });
 }
 
+export async function verifyJudgePin(pin: string): Promise<void> {
+  const res = await fetch('/api/judge/verify', {
+    method: 'POST',
+    headers: { 'X-Judge-Pin': pin.trim() },
+  });
+  if (!res.ok) {
+    const body = await res.json().catch(() => ({ error: res.statusText }));
+    throw new Error((body as { error?: string }).error ?? 'Request failed');
+  }
+}
+
 export function parseScreenshotUrls(raw: string): string[] {
   return raw
     .split(/[\n,]+/)
