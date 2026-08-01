@@ -1,15 +1,22 @@
-import { Link } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export function HomePage() {
   return (
     <main className="mx-auto flex max-w-3xl flex-1 flex-col justify-center gap-8 p-8">
       <Card>
         <CardHeader>
-          <CardTitle>Workshop Judge Platform</CardTitle>
+          <CardTitle>Leader Workshop</CardTitle>
           <CardDescription>
-            Submit your project, score submissions, and watch the live leaderboard.
+            Submit your project, score submissions, and watch the live
+            leaderboard.
           </CardDescription>
         </CardHeader>
         <CardContent className="flex flex-col gap-4">

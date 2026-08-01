@@ -6,14 +6,27 @@
     "node": ">=20"
   },
   "scripts": {
-    "build": "pnpm --filter @leader-workshop/client build && rm -rf server/static && cp -r client/dist server/static && pnpm --filter @leader-workshop/server build",
-    "start": "pnpm --filter @leader-workshop/server start",
-    "dev": "concurrently \"pnpm --filter @leader-workshop/server dev\" \"pnpm --filter @leader-workshop/client dev\"",
-    "test": "pnpm --filter @leader-workshop/server test",
-    "db:up": "docker compose up -d",
-    "db:down": "docker compose down",
-    "db:generate": "pnpm --filter @leader-workshop/server db:generate",
-    "db:migrate": "pnpm --filter @leader-workshop/server db:migrate"
+    "build": "pnpm client:build && rm -rf server/static && cp -r client/dist server/static && pnpm server:build",
+    "start": "pnpm server:start",
+    "dev": "concurrently -n server,client -c blue,green \"pnpm server:dev\" \"pnpm client:dev\"",
+    "test": "pnpm server:test",
+    "client:dev": "pnpm --filter @leader-workshop/client dev",
+    "client:build": "pnpm --filter @leader-workshop/client build",
+    "client:preview": "pnpm --filter @leader-workshop/client preview",
+    "server:dev": "pnpm --filter @leader-workshop/server dev:server",
+    "server:build": "pnpm --filter @leader-workshop/server build",
+    "server:start": "pnpm --filter @leader-workshop/server start",
+    "server:start:local": "pnpm --filter @leader-workshop/server start:local",
+    "server:test": "pnpm --filter @leader-workshop/server test",
+    "server:test:watch": "pnpm --filter @leader-workshop/server test:watch",
+    "server:db:up": "pnpm --filter @leader-workshop/server db:up",
+    "server:db:down": "pnpm --filter @leader-workshop/server db:down",
+    "server:db:generate": "pnpm --filter @leader-workshop/server db:generate",
+    "server:db:migrate": "pnpm --filter @leader-workshop/server db:migrate",
+    "db:up": "pnpm server:db:up",
+    "db:down": "pnpm server:db:down",
+    "db:generate": "pnpm server:db:generate",
+    "db:migrate": "pnpm server:db:migrate"
   },
   "devDependencies": {
     "concurrently": "^9.1.2"
