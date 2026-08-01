@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AppShell } from '@/components/app-shell';
 import { HomePage } from '@/modules/home/home-page';
 import { SubmitPage } from '@/modules/submit/submit-page';
 import { LeaderboardPage } from '@/modules/leaderboard/leaderboard-page';
@@ -8,10 +9,12 @@ export function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/submit" element={<SubmitPage />} />
-        <Route path="/leaderboard" element={<LeaderboardPage />} />
-        <Route path="/judge" element={<JudgePage />} />
+        <Route element={<AppShell />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/submit" element={<SubmitPage />} />
+          <Route path="/leaderboard" element={<LeaderboardPage />} />
+          <Route path="/judge" element={<JudgePage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

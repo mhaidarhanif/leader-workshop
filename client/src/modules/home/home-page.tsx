@@ -4,7 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 
 export function HomePage() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col justify-center gap-8 p-8">
+    <main className="mx-auto flex max-w-3xl flex-1 flex-col justify-center gap-8 p-8">
       <Card>
         <CardHeader>
           <CardTitle>Workshop Judge Platform</CardTitle>

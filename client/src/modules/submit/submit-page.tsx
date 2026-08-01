@@ -1,5 +1,5 @@
-import { useState, type FormEvent } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useEffect, useState, type FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -15,6 +15,13 @@ export function SubmissionForm() {
   const [githubUrl, setGithubUrl] = useState('');
   const [deployUrl, setDeployUrl] = useState('');
   const [screenshots, setScreenshots] = useState('');
+  const [showSuccess, setShowSuccess] = useState(false);
+
+  useEffect(() => {
+    if (!showSuccess) return;
+    const timer = setTimeout(() => navigate('/leaderboard'), 2000);
+    return () => clearTimeout(timer);
+  }, [showSuccess, navigate]);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -26,10 +33,19 @@ export function SubmissionForm() {
         screenshot_urls: parseScreenshotUrls(screenshots),
       },
       {
-        onSuccess: () => navigate('/leaderboard'),
+        onSuccess: () => setShowSuccess(true),
       },
     );
   };
+
+  if (showSuccess) {
+    return (
+      <div className="flex flex-col gap-4 py-4" role="status">
+        <p className="text-lg font-semibold text-primary">Submission received!</p>
+        <p className="text-muted-foreground text-base">Redirecting to leaderboard…</p>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -75,9 +91,6 @@ export function SubmitPage() {
         </CardHeader>
         <CardContent>
           <SubmissionForm />
-          <Button asChild variant="outline" className="mt-6">
-            <Link to="/">Back home</Link>
-          </Button>
         </CardContent>
       </Card>
     </main>

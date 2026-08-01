@@ -50,16 +50,37 @@ export function ScoreForm({
         </a>
       </div>
       <div className="flex flex-col gap-2">
-        <Label>PRD: {prd}</Label>
-        <Slider value={[prd]} min={1} max={10} step={1} onValueChange={(v) => setPrd(v[0] ?? 1)} />
+        <Label id="prd-score-label">PRD: {prd}</Label>
+        <Slider
+          value={[prd]}
+          min={1}
+          max={10}
+          step={1}
+          aria-labelledby="prd-score-label"
+          onValueChange={(v) => setPrd(v[0] ?? 1)}
+        />
       </div>
       <div className="flex flex-col gap-2">
-        <Label>RFC: {rfc}</Label>
-        <Slider value={[rfc]} min={1} max={10} step={1} onValueChange={(v) => setRfc(v[0] ?? 1)} />
+        <Label id="rfc-score-label">RFC: {rfc}</Label>
+        <Slider
+          value={[rfc]}
+          min={1}
+          max={10}
+          step={1}
+          aria-labelledby="rfc-score-label"
+          onValueChange={(v) => setRfc(v[0] ?? 1)}
+        />
       </div>
       <div className="flex flex-col gap-2">
-        <Label>Code: {code}</Label>
-        <Slider value={[code]} min={1} max={10} step={1} onValueChange={(v) => setCode(v[0] ?? 1)} />
+        <Label id="code-score-label">Code: {code}</Label>
+        <Slider
+          value={[code]}
+          min={1}
+          max={10}
+          step={1}
+          aria-labelledby="code-score-label"
+          onValueChange={(v) => setCode(v[0] ?? 1)}
+        />
       </div>
       {score.error && <p className="text-destructive">{score.error.message}</p>}
       {score.isSuccess && <p className="text-lg font-semibold text-primary">Score saved!</p>}
