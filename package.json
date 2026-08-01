@@ -10,6 +10,9 @@
     "start": "pnpm server:start",
     "dev": "concurrently -n server,client -c blue,green \"pnpm server:dev\" \"pnpm client:dev\"",
     "test": "pnpm server:test",
+    "typecheck": "pnpm client:typecheck && pnpm server:typecheck",
+    "client:typecheck": "pnpm --filter @leader-workshop/client typecheck",
+    "server:typecheck": "pnpm --filter @leader-workshop/server typecheck",
     "client:dev": "pnpm --filter @leader-workshop/client dev",
     "client:build": "pnpm --filter @leader-workshop/client build",
     "client:preview": "pnpm --filter @leader-workshop/client preview",
@@ -29,6 +32,7 @@
     "db:migrate": "pnpm server:db:migrate"
   },
   "devDependencies": {
-    "concurrently": "^9.1.2"
+    "concurrently": "^9.1.2",
+    "typescript": "^7.0.0"
   }
 }
