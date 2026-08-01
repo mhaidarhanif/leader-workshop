@@ -2,7 +2,7 @@ import { ExternalLink, Github } from "lucide-react";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { isStaticImageUrl } from "@/modules/shared/is-static-image-url";
+import { isStaticImageUrl } from "@/modules/shared/image-helper";
 import type { Submission } from "@/modules/shared/http";
 import { teamGradientStyle } from "@/modules/shared/team-gradient";
 
@@ -106,7 +106,7 @@ export function SubmissionCard({
         onClick={onSelect}
         aria-pressed={selected}
         className={cn(
-          "group w-full overflow-hidden rounded-2xl bg-card text-left ring-1 ring-border/60 shadow-card transition-[ring-color,shadow] duration-200 hover:shadow-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+          "group w-full overflow-hidden rounded-2xl bg-card text-left shadow-card transition-[ring-color,shadow] duration-200 hover:shadow-elevated focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           selected && "ring-2 ring-primary",
           className,
         )}
