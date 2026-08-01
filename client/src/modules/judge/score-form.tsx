@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
+import { Badge } from '@/components/ui/badge';
 import type { Submission } from '../shared/http';
 import { SubmissionArtifactLinks } from './submission-artifact-links';
 import { useScore } from './use-score';
@@ -34,46 +35,61 @@ export function ScoreForm({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-6 border-t pt-6">
-      <h3 className="text-xl font-bold">Score: {submission.team_name}</h3>
+    <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+      <h3 className="font-display text-2xl font-bold tracking-tight">
+        Score: {submission.team_name}
+      </h3>
       <SubmissionArtifactLinks submission={submission} />
-      <div className="flex flex-col gap-2">
-        <Label id="prd-score-label">PRD: {prd}</Label>
-        <Slider
-          value={[prd]}
-          min={1}
-          max={10}
-          step={1}
-          aria-labelledby="prd-score-label"
-          onValueChange={(v) => setPrd(v[0] ?? 1)}
-        />
-      </div>
-      <div className="flex flex-col gap-2">
-        <Label id="rfc-score-label">RFC: {rfc}</Label>
-        <Slider
-          value={[rfc]}
-          min={1}
-          max={10}
-          step={1}
-          aria-labelledby="rfc-score-label"
-          onValueChange={(v) => setRfc(v[0] ?? 1)}
-        />
-      </div>
-      <div className="flex flex-col gap-2">
-        <Label id="code-score-label">Code: {code}</Label>
-        <Slider
-          value={[code]}
-          min={1}
-          max={10}
-          step={1}
-          aria-labelledby="code-score-label"
-          onValueChange={(v) => setCode(v[0] ?? 1)}
-        />
+      <div className="grid gap-6 sm:grid-cols-3">
+        <div className="flex flex-col gap-3 rounded-xl bg-muted/50 p-4">
+          <div className="flex items-center justify-between">
+            <Label id="prd-score-label">PRD</Label>
+            <Badge variant="success" className="font-mono text-base tabular-nums">{prd}</Badge>
+          </div>
+          <Slider
+            value={[prd]}
+            min={1}
+            max={10}
+            step={1}
+            aria-labelledby="prd-score-label"
+            onValueChange={(v) => setPrd(v[0] ?? 1)}
+          />
+        </div>
+        <div className="flex flex-col gap-3 rounded-xl bg-muted/50 p-4">
+          <div className="flex items-center justify-between">
+            <Label id="rfc-score-label">RFC</Label>
+            <Badge variant="success" className="font-mono text-base tabular-nums">{rfc}</Badge>
+          </div>
+          <Slider
+            value={[rfc]}
+            min={1}
+            max={10}
+            step={1}
+            aria-labelledby="rfc-score-label"
+            onValueChange={(v) => setRfc(v[0] ?? 1)}
+          />
+        </div>
+        <div className="flex flex-col gap-3 rounded-xl bg-muted/50 p-4">
+          <div className="flex items-center justify-between">
+            <Label id="code-score-label">Code</Label>
+            <Badge variant="success" className="font-mono text-base tabular-nums">{code}</Badge>
+          </div>
+          <Slider
+            value={[code]}
+            min={1}
+            max={10}
+            step={1}
+            aria-labelledby="code-score-label"
+            onValueChange={(v) => setCode(v[0] ?? 1)}
+          />
+        </div>
       </div>
       {score.error && <p className="text-destructive">{score.error.message}</p>}
-      {score.isSuccess && <p className="text-lg font-semibold text-primary">Score saved!</p>}
-      <Button type="submit" disabled={score.isPending || !judgeName}>
-        {score.isPending ? 'Saving…' : 'Save Score'}
+      {score.isSuccess && (
+        <p className="text-lg font-semibold text-primary">Score saved</p>
+      )}
+      <Button type="submit" disabled={score.isPending || !judgeName} size="pill-lg" className="w-fit">
+        {score.isPending ? 'Saving…' : 'Save score'}
       </Button>
     </form>
   );

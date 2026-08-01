@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { KeyRound } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -34,16 +35,23 @@ export function PinGate({ onUnlock }: { onUnlock: (pin: string) => void }) {
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div className="flex flex-col gap-2">
         <Label htmlFor="pin">Judge PIN</Label>
-        <Input
-          id="pin"
-          type="password"
-          value={pin}
-          onChange={(e) => setPin(e.target.value)}
-          required
-        />
+        <div className="relative">
+          <KeyRound
+            className="absolute left-3 top-1/2 size-5 -translate-y-1/2 text-muted-foreground"
+            aria-hidden
+          />
+          <Input
+            id="pin"
+            type="password"
+            value={pin}
+            onChange={(e) => setPin(e.target.value)}
+            className="pl-10"
+            required
+          />
+        </div>
       </div>
       {error && <p className="text-destructive">{error}</p>}
-      <Button type="submit" disabled={verify.isPending}>
+      <Button type="submit" disabled={verify.isPending} size="pill" className="w-full">
         {verify.isPending ? 'Verifying…' : 'Unlock'}
       </Button>
     </form>

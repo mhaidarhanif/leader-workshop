@@ -1,19 +1,22 @@
 import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { KeyRound } from 'lucide-react';
+import { AppContainer } from '@/components/app-container';
+import { PageHeader } from '@/components/page-header';
+import { SubmissionCard } from '@/components/submission-card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { verifyJudgePin } from '../shared/http';
 import { PinGate, clearStoredPin, getStoredPin } from './pin-gate';
 import { ScoreForm } from './score-form';
-import { useSubmissions } from './use-submissions';
+import { useSubmissions } from '@/modules/submissions/use-submissions';
 
 function SubmissionsSkeleton() {
   return (
-    <div className="flex flex-col gap-2" aria-busy="true" aria-label="Loading submissions">
-      {Array.from({ length: 3 }, (_, i) => (
-        <Skeleton key={i} className="h-12 w-full" />
+    <div className="grid gap-4 sm:grid-cols-2" aria-busy="true" aria-label="Loading submissions">
+      {Array.from({ length: 4 }, (_, i) => (
+        <Skeleton key={i} className="h-48 rounded-2xl" />
       ))}
     </div>
   );
@@ -47,89 +50,97 @@ export function JudgePage() {
 
   if (checkingPin) {
     return (
-      <main className="mx-auto max-w-md p-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Judge Portal</CardTitle>
-            <CardDescription>Verifying judge PIN…</CardDescription>
-          </CardHeader>
-        </Card>
-      </main>
+      <AppContainer as="main" className="py-10">
+        <PageHeader title="Judge portal" description="Verifying judge PIN…" />
+      </AppContainer>
     );
   }
 
   if (!pin) {
     return (
-      <main className="mx-auto max-w-md p-8">
-        <Card>
-          <CardHeader>
-            <CardTitle>Judge Portal</CardTitle>
-            <CardDescription>Enter the shared judge PIN to continue.</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <PinGate onUnlock={setPin} />
-          </CardContent>
-        </Card>
-      </main>
+      <AppContainer as="main" className="py-10">
+        <div className="flex flex-col gap-8">
+          <PageHeader
+            eyebrow="Judges only"
+            title="Judge portal"
+            description="Enter the shared judge PIN to continue."
+          />
+          <Card className="mx-auto w-full max-w-md shadow-elevated">
+            <CardContent className="flex flex-col gap-4 p-6">
+              <div className="flex items-center gap-3 text-muted-foreground">
+                <KeyRound className="size-5" aria-hidden />
+                <p className="text-base">PIN is required to score submissions.</p>
+              </div>
+              <PinGate onUnlock={setPin} />
+            </CardContent>
+          </Card>
+        </div>
+      </AppContainer>
     );
   }
 
   const selected = submissions?.find((s) => s.id === selectedId) ?? null;
 
   return (
-    <main className="mx-auto max-w-4xl p-8">
-      <Card>
-        <CardHeader>
-          <CardTitle>Judge Portal</CardTitle>
-          <CardDescription>Score PRD, RFC, and Code from 1–10.</CardDescription>
-        </CardHeader>
-        <CardContent className="flex flex-col gap-6">
-          <div className="flex flex-col gap-2">
-            <Label htmlFor="judge">Your name</Label>
-            <Input id="judge" value={judgeName} onChange={(e) => setJudgeName(e.target.value)} required />
-          </div>
+    <AppContainer as="main" className="py-10">
+      <div className="flex flex-col gap-8">
+        <PageHeader
+          eyebrow="Judges only"
+          title="Judge portal"
+          description="Score PRD, RFC, and Code from 1–10."
+        />
 
-          {isLoading && <SubmissionsSkeleton />}
-          {error && <p className="text-destructive">{error.message}</p>}
+        <div className="flex flex-col gap-2">
+          <Label htmlFor="judge">Your name</Label>
+          <Input
+            id="judge"
+            value={judgeName}
+            onChange={(e) => setJudgeName(e.target.value)}
+            required
+          />
+        </div>
 
-          {!isLoading && !error && submissions && submissions.length === 0 && (
-            <p className="text-lg">No submissions to score yet.</p>
-          )}
+        {isLoading && <SubmissionsSkeleton />}
+        {error && <p className="text-destructive">{error.message}</p>}
 
-          {!isLoading && submissions && submissions.length > 0 && (
-            <div className="flex flex-col gap-2">
-              <Label id="submission-picker-label">Select submission</Label>
-              <div
-                role="listbox"
-                aria-labelledby="submission-picker-label"
-                className="flex flex-col gap-2"
-              >
-                {submissions.map((s) => (
-                  <Button
-                    key={s.id}
-                    type="button"
-                    role="option"
-                    aria-selected={selectedId === s.id}
-                    variant={selectedId === s.id ? 'default' : 'outline'}
-                    onClick={() => setSelectedId(s.id)}
-                  >
-                    {s.team_name}
-                  </Button>
-                ))}
-              </div>
+        {!isLoading && !error && submissions && submissions.length === 0 && (
+          <p className="text-lg">No submissions to score yet.</p>
+        )}
+
+        {!isLoading && submissions && submissions.length > 0 && (
+          <div className="flex flex-col gap-4">
+            <Label id="submission-picker-label">Select submission</Label>
+            <div
+              role="listbox"
+              aria-labelledby="submission-picker-label"
+              className="grid gap-4 sm:grid-cols-2"
+            >
+              {submissions.map((s) => (
+                <SubmissionCard
+                  key={s.id}
+                  submission={s}
+                  compact
+                  selected={selectedId === s.id}
+                  onSelect={() => setSelectedId(s.id)}
+                />
+              ))}
             </div>
-          )}
+          </div>
+        )}
 
-          {selected && pin && (
-            <ScoreForm
-              submission={selected}
-              pin={pin}
-              judgeName={judgeName}
-              onUnauthorized={handleAuthFailure}
-            />
-          )}
-        </CardContent>
-      </Card>
-    </main>
+        {selected && pin && (
+          <Card className="shadow-elevated">
+            <CardContent className="p-6">
+              <ScoreForm
+                submission={selected}
+                pin={pin}
+                judgeName={judgeName}
+                onUnauthorized={handleAuthFailure}
+              />
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </AppContainer>
   );
 }
