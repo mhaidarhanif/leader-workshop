@@ -9,12 +9,14 @@ export function ScoreForm({
   submission,
   pin,
   judgeName,
+  onUnauthorized,
 }: {
   submission: Submission;
   pin: string;
   judgeName: string;
+  onUnauthorized?: () => void;
 }) {
-  const score = useScore(pin);
+  const score = useScore(pin, { onUnauthorized });
   const [prd, setPrd] = useState(5);
   const [rfc, setRfc] = useState(5);
   const [code, setCode] = useState(5);

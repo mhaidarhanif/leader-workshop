@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { upsertScore, type UpsertScoreInput } from '../shared/http';
 import { queryKeys } from '../shared/query-keys';
 
-export function useScore(pin: string) {
+export function useScore(pin: string, options?: { onUnauthorized?: () => void }) {
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -10,6 +10,11 @@ export function useScore(pin: string) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.submissions });
       queryClient.invalidateQueries({ queryKey: queryKeys.leaderboard });
+    },
+    onError: (error) => {
+      if (error.message === 'Unauthorized') {
+        options?.onUnauthorized?.();
+      }
     },
   });
 }

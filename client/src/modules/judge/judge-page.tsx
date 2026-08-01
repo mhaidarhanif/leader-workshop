@@ -1,18 +1,52 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { PinGate, getStoredPin } from './pin-gate';
+import { verifyJudgePin } from '../shared/http';
+import { PinGate, clearStoredPin, getStoredPin } from './pin-gate';
 import { ScoreForm } from './score-form';
 import { useSubmissions } from './use-submissions';
 
 export function JudgePage() {
-  const [pin, setPin] = useState<string | null>(getStoredPin());
+  const [pin, setPin] = useState<string | null>(null);
+  const [checkingPin, setCheckingPin] = useState(() => !!getStoredPin());
   const [judgeName, setJudgeName] = useState('');
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const { data: submissions, isLoading, error } = useSubmissions();
+
+  useEffect(() => {
+    const stored = getStoredPin();
+    if (!stored) {
+      setCheckingPin(false);
+      return;
+    }
+
+    verifyJudgePin(stored)
+      .then(() => setPin(stored.trim()))
+      .catch(() => clearStoredPin())
+      .finally(() => setCheckingPin(false));
+  }, []);
+
+  const handleAuthFailure = () => {
+    clearStoredPin();
+    setPin(null);
+    setSelectedId(null);
+  };
+
+  if (checkingPin) {
+    return (
+      <main className="mx-auto max-w-md p-8">
+        <Card>
+          <CardHeader>
+            <CardTitle>Judge Portal</CardTitle>
+            <CardDescription>Verifying judge PIN…</CardDescription>
+          </CardHeader>
+        </Card>
+      </main>
+    );
+  }
 
   if (!pin) {
     return (
@@ -67,7 +101,12 @@ export function JudgePage() {
           )}
 
           {selected && pin && (
-            <ScoreForm submission={selected} pin={pin} judgeName={judgeName} />
+            <ScoreForm
+              submission={selected}
+              pin={pin}
+              judgeName={judgeName}
+              onUnauthorized={handleAuthFailure}
+            />
           )}
 
           <Button asChild variant="outline">

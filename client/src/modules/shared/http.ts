@@ -66,7 +66,7 @@ export function upsertScore(data: UpsertScoreInput, pin: string) {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      'X-Judge-Pin': pin,
+      'X-Judge-Pin': pin.trim(),
     },
     body: JSON.stringify(data),
   });
