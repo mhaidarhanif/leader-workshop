@@ -1,0 +1,18 @@
+{
+  "name": "leader-workshop",
+  "private": true,
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "build": "pnpm --filter @leader-workshop/client build && rm -rf server/static && cp -r client/dist server/static && pnpm --filter @leader-workshop/server build",
+    "start": "pnpm --filter @leader-workshop/server start",
+    "dev": "concurrently \"pnpm --filter @leader-workshop/server dev\" \"pnpm --filter @leader-workshop/client dev\"",
+    "test": "pnpm --filter @leader-workshop/server test",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:generate": "pnpm --filter @leader-workshop/server db:generate",
+    "db:migrate": "pnpm --filter @leader-workshop/server db:migrate"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
