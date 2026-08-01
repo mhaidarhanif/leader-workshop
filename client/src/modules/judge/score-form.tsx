@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Slider } from '@/components/ui/slider';
 import type { Submission } from '../shared/http';
+import { SubmissionArtifactLinks } from './submission-artifact-links';
 import { useScore } from './use-score';
 
 export function ScoreForm({
@@ -35,20 +36,7 @@ export function ScoreForm({
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-6 border-t pt-6">
       <h3 className="text-xl font-bold">Score: {submission.team_name}</h3>
-      <div className="flex flex-wrap gap-4 text-base">
-        <a className="text-primary underline" href={submission.github_url} target="_blank" rel="noreferrer">
-          Repo
-        </a>
-        <a className="text-primary underline" href={submission.prd_url} target="_blank" rel="noreferrer">
-          PRD
-        </a>
-        <a className="text-primary underline" href={submission.rfc_url} target="_blank" rel="noreferrer">
-          RFC
-        </a>
-        <a className="text-primary underline" href={submission.deploy_url} target="_blank" rel="noreferrer">
-          Deploy
-        </a>
-      </div>
+      <SubmissionArtifactLinks submission={submission} />
       <div className="flex flex-col gap-2">
         <Label id="prd-score-label">PRD: {prd}</Label>
         <Slider

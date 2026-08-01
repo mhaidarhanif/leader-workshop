@@ -77,7 +77,7 @@ export function JudgePage() {
   const selected = submissions?.find((s) => s.id === selectedId) ?? null;
 
   return (
-    <main className="mx-auto max-w-3xl p-8">
+    <main className="mx-auto max-w-4xl p-8">
       <Card>
         <CardHeader>
           <CardTitle>Judge Portal</CardTitle>
